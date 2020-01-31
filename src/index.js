@@ -40,9 +40,15 @@ client.on('message', (message) => {
       );
 
       // Check duplicate
-      if (champion && result.cost !== champion.cost) visible.cost = true;
-      if (champion && result.keyword === champion.keyword) visible.keyword = false;
-      if (champion && result.descriptionRaw === champion.descriptionRaw) visible.description = false;
+      if (champion && result.cost !== champion.cost) {
+        visible.cost = true;
+      }
+      if (champion && result.keywords === champion.keywords) {
+        visible.keyword = false;
+      }
+      if (champion && result.descriptionRaw === champion.descriptionRaw) {
+        visible.description = false;
+      }
 
       const fields = [];
       if (result.type === 'Unit') {
