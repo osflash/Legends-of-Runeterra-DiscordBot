@@ -43,7 +43,7 @@ client.on('message', (message) => {
       if (champion && result.cost !== champion.cost) {
         visible.cost = true;
       }
-      if (champion && result.keywords === champion.keywords) {
+      if (champion && JSON.stringify(result.keywords) === JSON.stringify(champion.keywords)) {
         visible.keyword = false;
       }
       if (champion && result.descriptionRaw === champion.descriptionRaw) {
