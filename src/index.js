@@ -54,6 +54,9 @@ client.on('message', (message) => {
       if (result.keywords.length) {
         description += `\n**Keywords:** ${result.keywords.join(', ')}`;
       }
+      if (champion && champion.keywords.length) {
+        description += `\n**Keywords Level Up:** ${champion.keywords.join(', ')}`;
+      }
       if (result.descriptionRaw.length) {
         description += `\n\n${result.descriptionRaw}`;
       }
@@ -62,11 +65,8 @@ client.on('message', (message) => {
       if (champion && champion.levelupDescriptionRaw.length) {
         description += `\n\n**Level up:** ${champion.levelupDescriptionRaw}`;
       }
-      if (champion && champion.keywords.length) {
-        description += `\n**Keywords Level Up:** ${champion.keywords.join(', ')}`;
-      }
       if (champion && champion.descriptionRaw.length) {
-        description += `\n\n${champion.descriptionRaw}`;
+        description += `\n\n**Level up:** ${champion.descriptionRaw}`;
       }
 
       message.channel.send({
