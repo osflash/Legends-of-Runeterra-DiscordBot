@@ -23,7 +23,11 @@ function getWordsBetween(str) {
 client.on('message', (message) => {
   const words = getWordsBetween(message.content);
 
+  // console.log(message.member.hasPermission('ADMINISTRATOR'));
+
   words.forEach((word) => {
+    const visible = { cost: false, keyword: true, description: true };
+
     const result = configs.find(
       (config) => config.name.toLowerCase() === word.toLowerCase()
       && config.collectible === true,
@@ -34,6 +38,11 @@ client.on('message', (message) => {
         (config) => config.name.toLowerCase() === word.toLowerCase()
         && config.collectible === false,
       );
+
+      // Check duplicate
+      if (champion && result.cost !== champion.cost) visible.cost = true;
+      if (champion && result.keyword === champion.keyword) visible.keyword = false;
+      if (champion && result.descriptionRaw === champion.descriptionRaw) visible.description = false;
 
       const fields = [];
       if (result.type === 'Unit') {
@@ -49,24 +58,34 @@ client.on('message', (message) => {
       }
 
       let description = '';
-      description += `**Cost:** ${result.cost}`;
+      description += `**Cost:** ${visible.cost ? `${result.cost} -> ${champion.cost}` : result.cost}`;
       description += `\n**Region:** ${result.region}`;
+
+      // Keywords
       if (result.keywords.length) {
         description += `\n**Keywords:** ${result.keywords.join(', ')}`;
       }
-      if (champion && champion.keywords.length) {
+      if (champion && champion.keywords.length && !visible.keyword) {
         description += `\n**Keywords Level Up:** ${champion.keywords.join(', ')}`;
       }
+
+      // Description
       if (result.descriptionRaw.length) {
         description += `\n\n${result.descriptionRaw}`;
       }
-
-      // Champion
-      if (champion && champion.levelupDescriptionRaw.length) {
-        description += `\n\n**Level up:** ${champion.levelupDescriptionRaw}`;
+      // Level up
+      if (result.levelupDescriptionRaw.length) {
+        description += `\n\n**Level up:** ${result.levelupDescriptionRaw}`;
       }
-      if (champion && champion.descriptionRaw.length) {
-        description += `\n\n**Level up:** ${champion.descriptionRaw}`;
+      // Leveled up
+      if (champion && champion.descriptionRaw.length && visible.description) {
+        description += `\n\n**Leveled up:** ${champion.descriptionRaw}`;
+      }
+      // Wallpaper
+      description += `\n\n[Wallpaper](https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${result.cardCode}-full.png)`;
+
+      if (champion) {
+        description += ` | [Wallpaper Level Up](https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${champion.cardCode}-full.png)`;
       }
 
       message.channel.send({
