@@ -26,7 +26,7 @@ client.on('message', (message) => {
   // console.log(message.member.hasPermission('ADMINISTRATOR'));
 
   words.forEach((word) => {
-    const visible = { cost: false, keyword: true, description: true };
+    const visible = { cost: false, keyword: false, description: true };
 
     const result = configs.find(
       (config) => config.name.toLowerCase() === word.toLowerCase()
@@ -43,8 +43,8 @@ client.on('message', (message) => {
       if (champion && result.cost !== champion.cost) {
         visible.cost = true;
       }
-      if (champion && JSON.stringify(result.keywords) === JSON.stringify(champion.keywords)) {
-        visible.keyword = false;
+      if (champion && JSON.stringify(result.keywords) !== JSON.stringify(champion.keywords)) {
+        visible.keyword = true;
       }
       if (champion && result.descriptionRaw === champion.descriptionRaw) {
         visible.description = false;
@@ -71,7 +71,7 @@ client.on('message', (message) => {
       if (result.keywords.length) {
         description += `\n**Keywords:** ${result.keywords.join(', ')}`;
       }
-      if (champion && champion.keywords.length && !visible.keyword) {
+      if (champion && champion.keywords.length && visible.keyword) {
         description += `\n**Keywords Level Up:** ${champion.keywords.join(', ')}`;
       }
 
