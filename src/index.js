@@ -88,21 +88,21 @@ client.on('message', (message) => {
         description += `\n\n**Leveled up:** ${champion.descriptionRaw}`;
       }
       // Wallpaper
-      description += `\n\n[Wallpaper](https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${result.cardCode}-full.png)`;
+      description += `\n\n[Wallpaper](http://dd.b.pvp.net/latest/set1/en_us/img/cards/${result.cardCode}-full.png)`;
 
       if (champion) {
-        description += ` | [Wallpaper Level Up](https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${champion.cardCode}-full.png)`;
+        description += ` | [Wallpaper Level Up](http://dd.b.pvp.net/latest/set1/en_us/img/cards/${champion.cardCode}-full.png)`;
       }
 
       message.channel.send({
         embed: {
           color: parseInt(rarityColor[result.rarity], 0),
-          image: { url: champion ? `https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${champion.cardCode}.png` : '' },
+          image: { url: champion ? `http://dd.b.pvp.net/latest/set1/en_us/img/cards/${champion.cardCode}.png` : '' },
           author: {
             name: result.name,
-            icon_url: `https://felipe10fe.github.io/Lor-Datadragon/en_us/img/regions/icon-${result.regionRef.toLowerCase()}.png`,
+            icon_url: `http://dd.b.pvp.net/latest/core-en_us/img/regions/icon-${result.regionRef.toLowerCase()}.png`, // crash
           },
-          thumbnail: { url: `https://felipe10fe.github.io/Lor-Datadragon/en_us/img/cards/${result.cardCode}.png` },
+          thumbnail: { url: `http://dd.b.pvp.net/latest/set1/en_us/img/cards/${result.cardCode}.png` },
           fields,
           description,
         },
